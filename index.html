@@ -1,0 +1,86 @@
+<html ng-app="fwia">
+    <head>
+        <meta charset="utf-8">
+        <title>SwedSearch</title>
+        <meta name="description" content="Work Sample for Findwise" />
+        <meta name="author" content="Jesper Bratt" />
+        <meta name="keywords" content="findwise, jesper bratt" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
+        <!-- Favicon -->
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+        
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/main.css">
+        
+        <!-- Fonts -->
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+    </head>
+    <body ng-controller="mainCtrl">
+        <header>
+            <div>
+                <h1>SwedSearch</h1>
+                <div class="search-pagination" ng-show="documents">
+                    <p>Page <span>{{currentPage}}</span> of <span>{{lastPage}}</span></p>
+                    <button ng-click="showPreviousPage()" ng-disabled="currentPage === 1">Previous</button>
+                    <button ng-click="showNextPage()" ng-disabled="currentPage === lastPage">Next</button>
+                </div>
+                <svg class="finance-loader">
+                    <rect x="0"></rect>
+                    <rect x="15"></rect>
+                    <rect x="30"></rect>
+                </svg>
+            </div>
+        </header>
+        
+        <!-- Container for search input and results -->
+        <main>
+            <div id="search-bar" class="beforeFirstSearch" ng-class="{'beforeFirstSearch': !fullData}">
+                <input id="search-input" type="text" autofocus tabindex="1" ng-model="query" ng-keydown="search($event)"/>
+                <button id="search-button" tabindex="2" ng-click="search($event)">SEARCH</button>
+                <div id="search-time" ng-show="fullData"><p>Search completed in <span>{{fullData.components.searchTimes.searchTimeInMillis}}</span> milliseconds and returned <span>{{fullData.numberOfHits}}</span> results.</p></div>
+            </div>
+            <div id="search-response">
+                <div id="search-feedback">
+                    <div ng-show="!fullData">
+                        <h1>Welcome!</h1>
+                        <p>Use the search bar above to search for some documents.</p>
+                        <svg class="ripple-loader">
+                            <circle cx="23" cy="23" r="18"></circle>
+                            <circle cx="23" cy="23" r="18"></circle>
+                            <circle cx="23" cy="23" r="18"></circle>
+                            <circle cx="23" cy="23" r="18"></circle>
+                        </svg>
+                        <div id="introduction">
+                            This tiny search interface was made as a work sample for Findwise AB. Feel free to play around with search queries. Hopefully it should be somewhat foolproof. You can use the search input to send queries towards a Swedbank API containing various documents and information. Enjoy your time here!
+                        </div>
+                    </div>
+                    <div ng-show="!documents && fullData">
+                        <h1>Oops...</h1>
+                        <p>The query <span id="error-query">{{lastQuery}}</span> did not yield any results. You could try searching for something else!</p>
+                    </div>
+                </div>
+                <p id="top-results" ng-show="documents && currentPage === 1">You are probably looking for</p>
+                <ul class="results">
+                    <li class="result" ng-class="{'first-page': currentPage === 1}" ng-repeat="doc in documents">
+                        <a ng-href="{{doc.url}}">
+                            <h1>{{doc.title}}</h1>
+                            <p class="result-date">{{doc.indextime.split(' ')[0]}}</p>
+                            <p ng-show="doc.content[0].length > 1">{{doc.content[0] | limitTo: 140}}...</p>
+                            <p ng-show="!(doc.content[0].length > 1) && doc.description.length > 1">{{doc.description | limitTo: 140}}...</p>
+                            <p ng-show="!(doc.content[0].length > 1) && !(doc.description.length > 1)">No description available.</p>
+                            <!-- <p class="result-keywords"><span ng-repeat="keyword in doc.keywords">{{keyword}} </span></p> -->
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </main>
+        
+        <!-- Angular -->
+        <script src="node_modules/angular/angular.js"></script>
+        
+        <!-- JavaScript -->
+        <script src="js/app.js"></script>
+    </body>
+</html>

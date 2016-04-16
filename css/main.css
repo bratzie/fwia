@@ -1,0 +1,491 @@
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    background-color: rgb(250, 235, 215);
+    margin: 0;
+    padding: 0;
+    
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+}
+
+p, h1, span, a, a:visited, a:hover, a:active, a:focus {
+    text-decoration: none;
+    color: rgb(40, 40, 40);
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    position: fixed;
+    overflow: hidden;
+    height: 60px;
+    width: 100%;
+    background-color: rgb(40, 40, 40);
+    border-top: 4px solid rgb(255, 99, 4);
+    z-index: 10;
+    box-shadow: 0 2px 30px rgba(0, 0, 0, .2);
+}
+
+header > div > h1 {
+    display: none;
+    position: absolute;
+    left: 60px;
+    padding-top: 10px;
+    color: rgb(255, 255, 255);
+}
+
+main, header > div {
+    width: 100%;
+    position: relative;
+}
+
+main {
+    padding-top: 60px; /* To give the header some room */
+}
+
+#introduction {
+    position: relative;
+    top: -50px;
+    text-align: justify;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    Search Bar, Search Results and Error Messages
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+#search-bar {
+    position: relative;
+    padding: 5px;
+    margin-bottom: 15px;
+    margin-top: 0px;
+    transition: margin-top .5s ease-in-out;
+}
+
+#search-bar.beforeFirstSearch {
+    margin-top: 50px;
+}
+
+#search-input, #search-button, .search-pagination button {
+    display: inline-block;
+    transform-origin: 50% 50%;
+    height: 40px;
+    margin: 10px 0;
+    padding: 15px;
+    border: none;
+    box-shadow: inset 0 0 0 rgb(255, 99, 4), 0 0 10px rgba(0, 0, 0, .1);
+    
+    transition-duration: .1s;
+    transition-timing-function: ease-in-out;
+    transition-property: background-color, color, box-shadow;
+}
+
+#search-input {
+    background: rgba(255, 255, 255, .5);
+    outline: 0;
+    font-size: 1.2em;
+    width: 100%;
+}
+
+#search-button, .search-pagination button {
+    background-color: rgb(255, 99, 4);
+    outline: 0;
+    color: rgb(255, 255, 255);
+    font-weight: 700;
+    font-size: 1.1em;
+    line-height: .7em;
+    cursor: pointer;
+}
+
+#search-button {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    margin-left: -5px;
+}
+
+.search-pagination {
+    position: absolute;
+    right: 0;
+}
+
+.search-pagination > p {
+    position: absolute;
+    display: block;
+    right: 220px;
+    width: 120px;
+    height: 60px;
+    line-height: 60px;
+    text-align: right;
+    font-weight: 300;
+    font-size: .8em;
+    color: rgb(255, 255, 255);
+}
+
+.search-pagination button {
+    position: relative;
+    margin-right: 5px;
+}
+
+.search-pagination button:disabled {
+    opacity: .4;
+    cursor: default;
+}
+
+#search-time {
+    position: absolute;
+    white-space: nowrap;
+    bottom: -5px;
+    right: 5px;
+    opacity: .5;
+    font-size: .7em;
+}
+
+#search-feedback {
+    text-align: center;
+}
+
+#search-feedback div {
+    padding: 10%;
+}
+
+#search-feedback p {
+    padding-top: 10px;
+    color: rgba(40, 40, 40, .7);
+}
+
+#error-query, #search-time span, .search-pagination > p span, #search-feedback div h1 {
+    font-weight: 700;
+    color: rgb(255, 99, 4);
+    opacity: 1;
+}
+
+#search-input:hover, #search-input:active, #search-input:focus {
+    box-shadow: inset 0 -3px 0 rgb(255, 99, 4), 0 2px 20px rgba(0, 0, 0, .2);
+}
+
+#search-button:hover, #search-button:active, #search-button:focus {
+    color: rgb(255, 99, 4);
+    background-color: rgb(40, 40, 40);
+}
+
+.search-pagination button:not(:disabled):hover, .search-pagination button:active, .search-pagination button:focus {
+    color: rgb(255, 99, 4);
+    background-color: rgb(250, 235, 215);
+}
+
+#search-button:hover:before, #search-button:active:before, #search-button:focus:before,
+.search-pagination button:not(:disabled):hover:before, .search-pagination button:active:before, .search-pagination button:focus:before {
+    animation-name: pulse;
+}
+
+#search-button:before, .search-pagination button:before {
+    content: '';
+    position: absolute;
+    border: 4px solid rgb(255, 99, 4);
+    pointer-events: none;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    animation-duration: .5s;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes pulse {
+    50% {
+        opacity: .5;
+    }
+    100% {
+        top: -10px;
+        right: -10px;
+        bottom: -10px;
+        left: -10px;
+        opacity: 0;
+    }
+}
+
+#search-response {
+    
+}
+
+#top-results {
+    display: none;
+}
+
+.results {
+    list-style: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.result {
+    vertical-align: top;
+    border: 0;
+    padding: 5px;
+}
+
+.result a h1 {
+    display: block;
+    width: 100%;
+    height: 1.4em;
+    line-height: 1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.2em;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(40, 40, 40, .1);   
+}
+
+.result > a {
+    position: relative;
+    display: block;
+    background-color: rgb(245, 245, 245);
+    padding: 10px;
+    box-shadow: inset 0 -3px rgb(225, 225, 225);
+    cursor: pointer;
+    outline: 0;
+    
+    transition-property: box-shadow, background-color;
+    transition-duration: .15s;
+    transition-timing-function: ease-in-out;
+}
+
+.result > a:hover, .result a:focus, .result a:active {
+    background-color: rgb(255, 255, 255);
+    box-shadow: inset 0 -3px rgb(255, 99, 4);
+}
+
+.result > a > p {
+    display: block;
+    padding-top: 5px;
+    font-size: .9em;
+}
+
+.result > a > p:last-child { /* If there's no description */
+    opacity: .5;
+}
+
+.result > a .result-date {
+    position: absolute;
+    opacity: .5;
+    top: 10px;
+    right: 10px;
+    font-size: .7em;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    SVG Spinners & Loaders
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* Swirly Ripple Loader */
+svg.ripple-loader {
+    position: relative;
+    left: 23px;
+    top: -130px;
+    transform: translateX(-50%);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+}
+
+svg.ripple-loader circle {
+    transform-origin: 50% 50%;
+    transform: scale(0);
+    opacity: 0;
+    fill: transparent;
+    stroke: rgb(255, 99, 4);
+    stroke-width: 3;
+    animation-name: loading;
+    animation-duration: 4s;
+    animation-timing-function: ease;
+    animation-iteration-count: infinite;
+
+}
+
+svg.ripple-loader circle:nth-child(2) {
+    animation-delay: 1s;
+}
+svg.ripple-loader circle:nth-child(3) {
+    animation-delay: 2s;
+}
+svg.ripple-loader circle:nth-child(4) {
+    animation-delay: 3s;
+}
+
+/* Scales up, then outwards */
+@keyframes loading {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    25% {
+        opacity: 1;
+        transform: scale(.5);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
+
+/* More of a Financy-type Loader */
+svg.finance-loader {
+    position: absolute;
+    left: 30px;
+    top: 5px;
+    transform: translateX(-50%) rotateX(180deg);
+    width: 40px;
+    height: 40px;
+}
+
+svg.finance-loader rect {
+    position: absolute;
+    width: 10px;
+    height: 5px;
+    fill: rgb(255, 99, 4);
+    animation-name: rise;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+svg.finance-loader rect:nth-child(2) {
+    animation-delay: .3s;
+}
+svg.finance-loader rect:nth-child(3) {
+    animation-delay: .6s;
+}
+
+/* Makes the rect go up and down */
+@keyframes rise {
+    0%, 100% {
+        height: 5px;
+        opacity: 1;
+    }
+    50% {
+        height: 30px;
+        opacity: .8;
+    }
+}
+
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    Media Queries / Reponsive
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+@media(max-width: 600px) {
+    .result a h1 {
+        padding-right: 70px;
+    }
+}
+
+@media(min-width: 600px) {
+    header > div > h1 {
+        display: block;
+    }
+    
+    .result.first-page:nth-child(-n+2) { /* The 2 first li elements on the first page should be special */
+        display: inline-block;
+        height: 150px;
+        width: 50%;
+    }
+    
+    .result.first-page:nth-child(-n+2) a {
+        height: 150px;
+    }
+    
+    .result.first-page:nth-child(-n+2) a .result-date {
+        top: auto;
+        bottom: 6px;
+    }
+    
+    #top-results, .result.first-page:nth-child(3):before {
+        text-transform: uppercase;
+        display: block;
+        padding: 0px 10px;
+        color: rgb(255, 99, 4);
+        border-bottom: 1px solid rgb(255, 99, 4);
+        margin-bottom: 10px;
+    }
+
+    #top-results {
+        margin: 5px;
+    }
+
+    .result.first-page:nth-child(3) {
+        padding-top: 25px;
+    }
+    .result.first-page:nth-child(3):before {
+        content: 'Other results';
+    }
+    
+    .result a h1 {
+        height: 1.3em;
+        line-height: 1em;
+        font-size: 1em;
+    }
+    
+    .result a .result-date {
+        top: 3px;
+        bottom: auto;
+    }
+}
+
+@media(min-width: 800px) {
+    main, header > div {
+        width: 800px;
+        margin: 0 auto;
+    }
+    
+    .result.first-page:nth-child(-n+3) { /* The 3 first li elements on the first pageshould be special */
+        display: inline-block;
+        height: 160px;
+        width: 33.3%;
+    }
+    .result.first-page:nth-child(-n+3) a {
+        height: 160px;
+    }
+    
+    .result.first-page:nth-child(-n+3) a .result-date {
+        top: auto;
+        bottom: 6px;
+    }
+
+    /* Adding headers to certain spots of the lists for user navigation */
+    .result.first-page:nth-child(4):before {
+        text-transform: uppercase;
+        display: block;
+        width: 100%;
+        padding: 0px 10px;
+        color: rgb(255, 99, 4);
+        border-bottom: 1px solid rgb(255, 99, 4);
+        margin-bottom: 10px;
+    }
+
+    .result.first-page:nth-child(4) {
+        padding-top: 25px;
+    }
+    .result.first-page:nth-child(4):before {
+        content: 'Other results';
+    }
+    .result.first-page:nth-child(3) {
+        padding-top: 5px;
+    }
+    .result.first-page:nth-child(3):before {
+        content: none;
+    }
+}
