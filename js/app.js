@@ -88,7 +88,7 @@ app.controller('mainCtrl', ['$scope', '$http', 'Fetch',
             if ($scope.currentPage >= 1 && $scope.currentPage < $scope.lastPage ) { // sanity check, buttons disabled, but who knows what could happen...
                 $scope.currentPage += 1;
                 params = {
-                    offset: $scope.hitsPerPage * $scope.currentPage,
+                    offset: ($scope.hitsPerPage * $scope.currentPage) - $scope.hitsPerPage,
                     q: $scope.lastQuery // base the page swap on the last executed query. The user might change the input field.
                 };
                 updateData(params);
@@ -104,7 +104,7 @@ app.controller('mainCtrl', ['$scope', '$http', 'Fetch',
             if ($scope.currentPage > 1 && $scope.currentPage <= $scope.lastPage ) { // sanity check, buttons disabled, but who knows what could happen...
                 $scope.currentPage -= 1;
                 params = {
-                    offset: $scope.hitsPerPage * $scope.currentPage,
+                    offset: ($scope.hitsPerPage * $scope.currentPage) - $scope.hitsPerPage,
                     q: $scope.lastQuery // base the page swap on the last executed query. The user might change the input field.
                 };
                 updateData(params);
